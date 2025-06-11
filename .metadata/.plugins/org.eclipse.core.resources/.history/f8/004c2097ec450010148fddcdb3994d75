@@ -1,0 +1,79 @@
+package com.example.demo.Controllers;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import com.example.demo.Entity.Employee;
+import com.example.demo.Repos.MyRepo;
+
+@RestController
+public class MyController {
+
+    @Autowired
+    private MyRepo repo;
+
+    @GetMapping("/getAllEmployee")
+    public List<Employee> getAllEmployee() {
+        return repo.findAll();
+    }
+
+    @GetMapping("/getEmpById/{id}")
+    public Optional<Employee> getEmpById(@PathVariable int id) {
+        return repo.findById(id);
+    }
+
+    @GetMapping("/getEmpByName/{name}")
+    public List<Employee> getEmpByName(@PathVariable String name) {
+        return repo.findByName(name); // Should return a List in repo
+    }
+
+    @PostMapping("/addEmployee")
+    public String addEmployee(@RequestBody Employee emp) {
+        repo.save(emp);
+        return "Employee added successfully....";
+    }
+
+    @PutMapping("/updateEmp")
+    public String updateEmp(@RequestBody Employee employee) {
+        repo.save(employee);
+        return "Updated";
+    }
+
+    @DeleteMapping("/deleteAllEmployees")
+    public String deleteAllEmployees() {
+        repo.deleteAll();
+        return "Deleted all employees";
+    }
+
+    @DeleteMapping("/deleteEmpById/{id}")
+    public String deleteEmployee(@PathVariable int id) {
+        repo.deleteById(id);
+        return "Deleted employee";
+    }
+
+    // 1. Get employees by designation
+    @GetMapping("/getEmployeesByDesig/{desig}")
+    public List<Employee> getEmployeesByDesig(@PathVariable String desig) {
+        return repo.findByDesigIgnoreCase(desig);
+    }
+
+    // 2. Get average salary of employees
+    @GetMapping("/getAverageSalary")
+    public double getAverageSalary() {
+        List<Employee> employees = repo.findAll();
+        return employees.isEmpty() ? 0 :
+                employees.stream().mapToDouble(Employee::getSalary).average().orElse(0);
+    }
+
+    // 3. Get employee with highest salary
+    @GetMapping("/getHighestPaidEmployee")
+    public Employee getHighestPaidEmployee() {
+        List<Employee> employees = repo.findAll();
+        return employees.stream().max(Comparator.comparingDouble(Employee::getSalary)).orElse(null);
+    }
+
+    // 4. Search employees by partial name (case-insensitive)
+    @G

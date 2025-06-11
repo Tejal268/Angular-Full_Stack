@@ -1,0 +1,52 @@
+package com.example.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.model.Product;
+import com.example.repo.CurdRepo;
+
+@Service
+public class CrudService {
+
+	@Autowired
+	private  CurdRepo repo;
+	
+	public List<Product> fetchProductList(){
+		
+		return repo.findAll();
+		// seelct * from product;
+	
+	}
+	
+    public Optional<Product> fetchProductListById(int id){
+		
+		return repo.findById(id);
+		// select * from product where id = ? 
+	
+	}
+	
+	public Product  saveProductToBD(Product product)
+	{
+		return repo.save(product);
+//		insert into prodctu value(?,?,?,?);
+	}
+	
+	 public String  deleteProductListById(int id){
+			String result;
+			 try {
+				repo.deleteById(id);
+				result="Deleted ";
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				result="Not Deleted";
+			}
+//			 delete from productr where id = ? 
+		
+			 return result;
+		}	
+
+}

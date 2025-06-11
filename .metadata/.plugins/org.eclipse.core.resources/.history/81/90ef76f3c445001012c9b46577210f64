@@ -1,0 +1,30 @@
+package com.example.demo.Controllers;
+
+import java.util.ArrayList;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class MyController {
+
+	@GetMapping("/Home")
+	public String Home() {
+		return "<h1> Hi Welcome to home page </h1>";
+	}
+	
+	@GetMapping("/login")
+	public String login() {
+		return "<h1> Login Page </h1>";
+	}
+	
+	@GetMapping("/logout")
+	public String logout() {
+		return "<h1> Logout Page </h1>";
+	}
+	
+	ArrayList<Employee> emp=new ArrayList<>();
+	public MyController() {
+		
+	}
+}

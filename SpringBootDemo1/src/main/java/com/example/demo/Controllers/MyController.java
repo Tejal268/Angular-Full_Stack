@@ -1,0 +1,103 @@
+package com.example.demo.Controllers;
+
+import java.util.ArrayList;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.EntityorModel.Employee;
+
+@RestController
+public class MyController {
+
+	@GetMapping("/Home")
+	public String Home() {
+		return "<h1> Hi Welcome to home page </h1>";
+	}
+	
+	@GetMapping("/login")
+	public String login() {
+		return "<h1> Login Page </h1>";
+	}
+	
+	@GetMapping("/logout")
+	public String logout() {
+		return "<h1> Logout Page </h1>";
+	}
+	
+	ArrayList<Employee> emp=new ArrayList<>();
+	public MyController() {
+		emp.add(new Employee(1,"Tejal",23,60000,"Dev"));
+		emp.add(new Employee(2,"Kajal",24,70000,"CEO"));
+		emp.add(new Employee(3,"Ganesh",25,66000,"HR"));
+	}
+	
+	@GetMapping("/getAllEmployee")
+	public ArrayList<Employee> AllEmployee() {
+	return emp;
+	}
+	
+	@GetMapping("/getEmployeeByid/{id}")
+	public Employee getEmployeeByid(@PathVariable int id) {
+		for(Employee e:emp)
+			if(e.getId()==id)
+				return e;
+		return null;
+	}
+	
+	@GetMapping("/getEmpByName/{name}")
+	public Employee getEmpByName(@PathVariable String name) {
+		for(Employee e:emp) {
+			if(e.getName().equalsIgnoreCase(name)) {
+				return e;
+			}
+			
+		}
+		return null;
+	}
+	@PostMapping("/addEmployee")
+	public String addEmployee(@RequestBody Employee employee) {
+	    emp.add(employee);
+	    return "Employee added successfully...";
+	}
+	
+	@DeleteMapping("/deleteEmployee/{id}")
+	public String deleteEmployee(@PathVariable int id) {
+		for(Employee e:emp) {
+			if(e.getId()==id) {
+				emp.remove(id);
+			}
+		}
+		
+		return "Employee deleted successfully..";
+	}
+	
+	@PutMapping("/updateEmployee/{id}")
+	public ResponseEntity<String> updateEmployee(@PathVariable int id,@RequestBody Employee updateemp) {
+		for(Employee e:emp) {
+			if(e.getId()==id) {
+				e.setName(updateemp.getName());
+				e.setAge(updateemp.getAge());
+				e.setSalary(updateemp.getSalary());
+				e.setDesig(updateemp.getDesig());
+				
+				return ResponseEntity.ok("Employee id:"+id+"updated");
+			}
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Employee not found for id"+id);
+		
+		
+		
+	}
+	
+	
+
+}

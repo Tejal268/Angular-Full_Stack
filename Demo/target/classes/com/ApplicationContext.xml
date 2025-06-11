@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Bean definition for Employee -->
+    <bean id="emp" class="com.Employee">
+        <property name="id" value="101"/>
+        <property name="name" value="Tejal Pawar"/>
+        <property name="city" value="Sangli"/>
+        <property name="ph" value="9876543210"/>
+    </bean>
+
+</beans>

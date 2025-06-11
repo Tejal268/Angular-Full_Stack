@@ -1,0 +1,49 @@
+package com.example.demo.controller;
+
+import java.util.List;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import com.example.demo.Entity.Employee;
+import com.example.demo.service.MyServices;
+
+import jakarta.validation.Valid;
+
+@RestController
+public class MyControler {
+
+    @Autowired
+    private MyServices service;
+
+    @GetMapping("/getAllEmployee")
+    public List<Employee> getAllEmployee() {
+        return service.getAllEmployee();
+    }
+
+    @GetMapping("/getAllEmployee/{id}")
+    public Employee  getAllEmployeebyID(@PathVariable int id) {
+        return service.getEmployeeById(id);
+    }
+
+    @PostMapping("/addEmployee")
+    public String addEmployee(@Valid @RequestBody Employee employee) {
+        return service.addEmployee(employee);
+    }
+
+    @PutMapping("/updateEmployee/{id}")
+    public String updateEmployee(@PathVariable int id, @RequestBody Employee updatedEmployee) {
+        return service.updateEmployee(id, updatedEmployee);
+    }
+
+    @DeleteMapping("/deleteEmployee/{id}")
+    public String deleteEmployee(@PathVariable int id) {
+        return service.deleteEmployee(id);
+    }
+
+    @DeleteMapping("/deleteAllEmployee")
+    public String deleteAllEmployee() {
+        return service.deleteAllEmployees();
+    }
+}

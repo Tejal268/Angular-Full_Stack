@@ -1,0 +1,206 @@
+package com.example.demo.Controllers;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.Entity.Employee;
+import com.example.demo.Repos.MyRepo;
+
+@RestController
+public class MyController {
+	
+	@Autowired
+	private MyRepo repo;
+	
+	@GetMapping("/getAllEmployee")
+	public List<Employee> getAllEmployee() {
+		
+		return repo.findAll();
+		
+	}
+	
+	@GetMapping("/getEmpById/{id}")
+	public Optional<Employee> getEmpById(@PathVariable int id) {
+		
+		return repo.findById(id);
+		
+	}
+	@GetMapping("/getEmpByName/{name}")
+	public Optional<Employee> getEmpByName(@PathVariable String name) {
+	    return repo.findByName(name);
+	}
+
+	
+	@PostMapping("/addEmployee")
+	public String addEmployee(@RequestBody Employee emp) {
+		
+		repo.save(emp);
+		return "Employee addeed successfully....";
+		
+	}
+	
+	@PutMapping("/updateEmp")
+	public String updateEmp(@RequestBody Employee employee) {
+		repo.save(employee);
+		return "Updated";
+		
+	}
+	
+	@DeleteMapping("/DeleteEmployee")
+	public String DeleteEmployee() {
+		repo.deleteAll();
+		return "Deleted all employees";
+	}
+	
+	@DeleteMapping("/DeleteEmpById/{id}")
+	public String DeleteEmployee(@PathVariable int id) {
+		repo.deleteById(id);
+		return "Deleted employee";
+	}
+	
+	
+	//Get employees by designation
+	@GetMapping("/getEmployeesByDesig/{desig}")
+	public List<Employee> getEmployeesByDesig(@PathVariable String desig) {
+	    List<Employee> result = new ArrayList<>();
+	    for (Employee e : emp) {
+	        if (e.getDesig().equalsIgnoreCase(desig)) {
+	            result.add(e);
+	        }
+	    }
+	    return result;
+	}
+	
+	//2. Get average salary of employees
+	@GetMapping("/getAverageSalary")
+	public double getAverageSalary() {
+	    if (emp.isEmpty()) return 0;
+	    double total = 0;
+	    for (Employee e : emp) {
+	        total += e.getSalary();
+	    }
+	    return total / emp.size();
+	}
+	
+	//3. Get employee with highest salary
+	@GetMapping("/getHighestPaidEmployee")
+	public Employee getHighestPaidEmployee() {
+	    if (emp.isEmpty()) return null;
+	    Employee highest = emp.get(0);
+	    for (Employee e : emp) {
+	        if (e.getSalary() > highest.getSalary()) {
+	            highest = e;
+	        }
+	    }
+	    return highest;
+	}
+	
+	
+	//4. Search employees by partial name (case-insensitive)
+	@GetMapping("/searchEmployee/{keyword}")
+	public List<Employee> searchEmployeeByName(@PathVariable String keyword) {
+	    List<Employee> result = new ArrayList<>();
+	    for (Employee e : emp) {
+	        if (e.getName().toLowerCase().contains(keyword.toLowerCase())) {
+	            result.add(e);
+	        }
+	    }
+	    return result;
+	}
+	
+	//5. Get employees older than a certain age
+	@GetMapping("/getOlderThan/{age}")
+	public List<Employee> getEmployeesOlderThan(@PathVariable int age) {
+	    List<Employee> result = new ArrayList<>();
+	    for (Employee e : emp) {
+	        if (e.getAge() > age) {
+	            result.add(e);
+	        }
+	    }
+	    return result;
+	}
+	
+	//6. Count of employees per designation
+	@GetMapping("/countByDesignation")
+
+	public Map<String, Integer> countByDesignation() {
+
+	    Map<String, Integer> map = new HashMap<>();
+
+	    for (Employee e : emp) {
+
+	        map.put(e.getDesig(), map.getOrDefault(e.getDesig(), 0) + 1);
+
+	    }
+
+	    return map;
+
+	}
+	//7. Delete employee by name
+	 
+	@DeleteMapping("/deleteByName/{name}")
+
+	public String deleteEmployeeByName(@PathVariable String name) {
+
+	    Iterator<Employee> iterator = emp.iterator();
+
+	    while (iterator.hasNext()) {
+
+	        Employee e = iterator.next();
+
+	        if (e.getName().equalsIgnoreCase(name)) {
+
+	            iterator.remove();
+
+	            return "Employee named " + name + " deleted successfully!";
+
+	        }
+
+	    }
+
+	    return "Employee named " + name + " not found!";
+
+	}
+
+	//Get total number of employees
+	@GetMapping("/getTotalCount")
+	public int getTotalCount() {
+	    return emp.size();
+	}
+	
+	//Get employees within a salary range
+	 
+	@GetMapping("/getBySalaryRange/{min}/{max}")
+
+	public List<Employee> getBySalaryRange(@PathVariable double min, @PathVariable double max) {
+
+	    List<Employee> result = new ArrayList<>();
+
+	    for (Employee e : emp) {
+
+	        if (e.getSalary() >= min && e.getSalary() <= max) {
+
+	            result.add(e);
+
+	        }
+
+	    }
+
+	    return result;
+
+	}
+
+	 
+	 
+}

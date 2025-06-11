@@ -1,0 +1,22 @@
+package com.example.controller;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import com.example.model.Product;
+import com.example.service.CrudService;
+@RestController
+public class CurdRestController {
+
+   
+
+    @GetMapping("/Home")
+    public String Home() {
+        return "<h1>Welcome to SpringBoot App</h1>";
+    }
+
+
+}

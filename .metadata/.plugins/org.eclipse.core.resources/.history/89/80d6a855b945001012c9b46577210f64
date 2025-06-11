@@ -1,0 +1,13 @@
+package com.example.demo.Controllers;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class MyController {
+
+	@GetMapping("/Home")
+	public String Home() {
+		return "<h1> Hi Welcome to home page </h1>";
+	}
+}

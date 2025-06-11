@@ -1,0 +1,83 @@
+package com.example.demo.Controllers;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.Entity.Employee;
+import com.example.demo.Repos.MyRepo;
+
+@RestController
+public class MyController {
+	
+	@Autowired
+	private MyRepo repo;
+	
+	@GetMapping("/getAllEmployee")
+	public List<Employee> getAllEmployee() {
+		
+		return repo.findAll();
+		
+	}
+	
+	@GetMapping("/getEmpById/{id}")
+	public Optional<Employee> getEmpById(@PathVariable int id) {
+		
+		return repo.findById(id);
+		
+	}
+	@GetMapping("/getEmpByName/{name}")
+	public Optional<Employee> getEmpByName(@PathVariable String name) {
+	    return repo.findByName(name);
+	}
+
+	
+	@PostMapping("/addEmployee")
+	public String addEmployee(@RequestBody Employee emp) {
+		
+		repo.save(emp);
+		return "Employee addeed successfully....";
+		
+	}
+	
+	@PutMapping("/updateEmp")
+	public String updateEmp(@RequestBody Employee employee) {
+		repo.save(employee);
+		return "Updated";
+		
+	}
+	
+	@DeleteMapping("/DeleteEmployee")
+	public String DeleteEmployee() {
+		repo.deleteAll();
+		return "Deleted all employees";
+	}
+	
+	@DeleteMapping("/DeleteEmpById/{id}")
+	public String DeleteEmployee(@PathVariable int id) {
+		repo.deleteById(id);
+		return "Deleted employee";
+	}
+	
+	//Get employees by designation
+	@GetMapping("/getEmployeesByDesig/{desig}")
+	public List<Employee> getEmployeesByDesig(@PathVariable String desig) {
+	    List<Employee> result = new ArrayList<>();
+	    for (Employee e : emp) {
+	        if (e.getDesig().equalsIgnoreCase(desig)) {
+	            result.add(e);
+	        }
+	    }
+	    return result;
+	}
+	
+}
