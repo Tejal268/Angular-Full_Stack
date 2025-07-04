@@ -1,0 +1,33 @@
+<p>officer-dashboard works!</p>
+
+<!-- Officer Dashboard (Example) -->
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Officer Dashboard</h2>
+  <div class="row">
+
+    <!-- Manage Proposals -->
+    <div class="col-md-6 mb-4">
+      <div class="card h-100 shadow">
+        <div class="card-header bg-info text-white">Proposal Review</div>
+        <div class="card-body text-center">
+          <img src="assets/review.png" alt="Review Proposal" class="img-fluid mb-3" style="max-height: 150px;">
+          <button routerLink="/officer/proposal-review" class="btn btn-outline-info btn-block mb-2">Review Proposals</button>
+          <button routerLink="/officer/request-documents" class="btn btn-outline-warning btn-block">Request Additional Info</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Approve/Reject -->
+    <div class="col-md-6 mb-4">
+      <div class="card h-100 shadow">
+        <div class="card-header bg-secondary text-white">Approval Actions</div>
+        <div class="card-body text-center">
+          <img src="assets/approval.png" alt="Approval Actions" class="img-fluid mb-3" style="max-height: 150px;">
+          <button routerLink="/officer/approve-payment" class="btn btn-success btn-block mb-2">Approve Payments</button>
+          <button routerLink="/officer/manage-policy" class="btn btn-primary btn-block">Manage Policies</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="container py-4">
+  <h2 class="mb-4 text-center">💳 Complete Your Payment</h2>
+
+  <div class="mb-4">
+    <label class="form-label fw-semibold">Proposal ID</label>
+    <input class="form-control" [(ngModel)]="proposalId" type="number" placeholder="Enter Proposal ID">
+    <button class="btn btn-primary mt-2" (click)="getQuote()">Fetch Quote</button>
+  </div>
+
+  <div *ngIf="quote" class="border rounded p-4 bg-light">
+    <h4>Quote Details</h4>
+    <p><strong>Amount:</strong> ₹{{ quote.amount }}</p>
+    <p><strong>Expiry:</strong> {{ quote.expiryDate }}</p>
+
+    <div class="mb-3">
+      <label class="form-label">Select Payment Mode:</label>
+      <select class="form-control" [(ngModel)]="paymentMode">
+        <option value="UPI">UPI</option>
+        <option value="CARD">Card</option>
+        <option value="NET_BANKING">Net Banking</option>
+      </select>
+    </div>
+
+    <button class="btn btn-success fw-bold" (click)="makePayment()">Pay Now</button>
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success mt-3 text-center">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3 text-center">{{ errorMessage }}</div>
+</div>

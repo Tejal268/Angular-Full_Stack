@@ -1,0 +1,32 @@
+<div class="container py-5">
+  <h3 class="mb-4 text-center">Your Insurance Policies</h3>
+
+  <table class="table table-hover table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>Policy ID</th>
+        <th>Issued Date</th>
+        <th>Payment ID</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let policy of policies; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ policy.id }}</td>
+        <td>{{ policy.issuedDate }}</td>
+        <td>{{ policy.payment.id }}</td>
+        <td>
+          <button class="btn btn-sm btn-primary" (click)="downloadPolicy(policy.id)">
+            Download PDF
+          </button>
+        </td>
+      </tr>
+
+      <tr *ngIf="policies.length === 0">
+        <td colspan="5" class="text-center py-3">No policies found.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
